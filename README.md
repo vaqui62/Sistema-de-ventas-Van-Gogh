@@ -68,6 +68,13 @@ El sistema busca mejorar la organización del inventario, optimizar las ventas y
 
 ---
 
+## Esquema 
+![Esquema](https://github.com/vaqui62/Sistema-de-ventas-Van-Gogh/blob/main/Screenshot%202026-04-29%20234819.png).
+
+
+---
+
+
 ## Instalación
 
 ```bash
