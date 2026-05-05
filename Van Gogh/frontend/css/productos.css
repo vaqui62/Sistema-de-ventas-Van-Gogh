@@ -1,0 +1,54 @@
+.contenedor-detalle {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.detalle-producto {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.imagen-producto {
+    flex: 1;
+    min-width: 300px;
+}
+
+.imagen-producto img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.info-producto {
+    flex: 1;
+    min-width: 300px;
+}
+
+.precio {
+    font-size: 2rem;
+    color: #e67e22;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.acciones {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-comprar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-comprar:hover {
+    background-color: #34495e;
+}
