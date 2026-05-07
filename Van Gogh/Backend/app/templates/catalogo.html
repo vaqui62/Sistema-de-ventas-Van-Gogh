@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Ropa | Van Gogh</title>
+    <link rel="stylesheet" href="/static/css/inicio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+</head>
+<body class="pagina-catalogo">
+    <header>
+      <div class="logo"><h1>Van Gogh</h1></div>
+      <nav class="nav-container">
+        <ul class="nav-links">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/catalogo">Productos</a></li>
+          <li><a href="/ofertas">Ofertas</a></li>
+          <li><a href="/#contacto">Contacto</a></li>
+        </ul>
+        <div class="user-menu">
+          <div class="dropdown">
+            <button class="dropbtn"><span class="material-symbols-outlined">account_circle</span><i class="arrow down"></i></button>
+            <div class="dropdown-content">
+              <a href="/login">Iniciar Sesión</a>
+              <a href="/registro">Registrarse</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="contenedor-catalogo">
+        <aside class="filtros">
+            <h2>Filtrar productos</h2>
+            <div class="grupo-filtro">
+                <h3>Categorías</h3>
+                <!-- Se llenará dinámicamente con JS -->
+            </div>
+            <div class="grupo-filtro">
+                <h3>Precio</h3>
+                <input type="range" min="0" max="500" id="rango-precio" value="500">
+                <p>Hasta: <strong id="valor-precio">Bs. 500</strong></p>
+            </div>
+        </aside>
+
+        <section class="contenido-principal">
+            <div class="barra-herramientas">
+                <input type="search" id="busqueda" placeholder="Buscar producto...">
+                <select id="ordenar">
+                    <option value="relevancia">Ordenar por: Relevancia</option>
+                    <option value="menor">Precio: Menor a Mayor</option>
+                    <option value="mayor">Precio: Mayor a Menor</option>
+                </select>
+            </div>
+            <div class="grid-productos" id="lista-productos">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Van Gogh. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/catalogo.js"></script>
+</body>
+</html>

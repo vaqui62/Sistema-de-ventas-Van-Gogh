@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Van Gogh</title>
+    <link rel="stylesheet" href="/static/css/inicio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,shopping_cart,dashboard" />
+</head>
+<body class="pagina-admin">
+    <header>
+        <div class="logo"><h1>Van Gogh</h1></div>
+        <nav class="nav-container">
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/catalogo">Productos</a></li>
+                <li><a href="/ofertas">Ofertas</a></li>
+                <li><a href="/admin">Admin</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="dropdown">
+                    <button class="dropbtn"><span class="material-symbols-outlined">account_circle</span></button>
+                    <div class="dropdown-content" id="user-dropdown"></div>
+                </div>
+                <a href="/carrito" id="cart-icon-container" class="cart-link" style="position: relative; margin-left: 15px;">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="contenedor-admin">
+        <h2>Panel de Administración</h2>
+        <p id="admin-bienvenida"></p>
+
+        <div class="admin-cards">
+            <!-- Sección Pedidos -->
+            <section class="admin-card">
+                <h3>Pedidos Recientes</h3>
+                <table class="tabla-admin" id="tabla-pedidos">
+                    <thead><tr><th>ID</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Sección Historial de Precios -->
+            <section class="admin-card">
+                <h3>Historial de Cambios de Precio</h3>
+                <table class="tabla-admin">
+                    <thead><tr><th>Producto</th><th>Anterior</th><th>Nuevo</th><th>Motivo</th><th>Fecha</th></tr></thead>
+                    <tbody id="historial-precios"></tbody>
+                </table>
+            </section>
+
+            <!-- Sección Inventario (Stock bajo) -->
+            <section class="admin-card">
+                <h3>Inventario - Stock Bajo (≤5)</h3>
+                <table class="tabla-admin">
+                    <thead><tr><th>Variante</th><th>SKU</th><th>Stock</th></tr></thead>
+                    <tbody id="stock-bajo"></tbody>
+                </table>
+            </section>
+
+            <!-- Sección Pagos -->
+            <section class="admin-card">
+                <h3>Pagos Recientes</h3>
+                <table class="tabla-admin">
+                    <thead><tr><th>ID Pago</th><th>Pedido</th><th>Método</th><th>Estado</th></tr></thead>
+                    <tbody id="pagos-recientes"></tbody>
+                </table>
+            </section>
+            <section class="admin-card">
+    <h3>Clientes Registrados</h3>
+    <table class="tabla-admin">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th></tr></thead>
+        <tbody id="lista-clientes"></tbody>
+    </table>
+</section>
+        </div>
+    </main>
+
+    <footer><p>&copy; 2026 Van Gogh</p></footer>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/admin.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => { configurarAuth(); });</script>
+</body>
+</html>

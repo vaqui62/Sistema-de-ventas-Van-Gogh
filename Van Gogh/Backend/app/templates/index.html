@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda de Ropa | Estilo Único</title>
+  <meta name="description" content="Descubre moda moderna, ropa casual y accesorios con estilo único.">
+  <link rel="stylesheet" href="/static/css/inicio.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+</head>
+<body>
+
+  <!-- Encabezado igual que antes, pero con rutas actualizadas -->
+  <header>
+    <div class="logo">
+      <h1>Van Gogh</h1>
+    </div>
+    <nav class="nav-container">
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/catalogo">Productos</a></li>
+        <li><a href="/ofertas">Ofertas</a></li>
+        <li><a href="/#contacto">Contacto</a></li>
+      </ul>
+      <div class="user-menu">
+        <div class="dropdown">
+          <button class="dropbtn"><span class="material-symbols-outlined">account_circle</span><i class="arrow down"></i></button>
+          <div class="dropdown-content">
+            <a href="/login">Iniciar Sesión</a>
+            <a href="/registro">Registrarse</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="hero">
+    <div class="hero-content">
+      <h2>Nueva Colección 2026</h2>
+      <p>Ropa moderna para todos los estilos.</p>
+      <a href="/catalogo" class="btn">Comprar Ahora</a>
+    </div>
+  </section>
+
+  <!-- Productos Destacados -->
+  <section id="productos" class="productos">
+    <h2 id="inicio_productos">Nuestros Productos</h2>
+    <br>
+    <div class="grid-productos">
+      <!-- Se llenará dinámicamente con JS -->
+    </div>
+  </section>
+
+  <!-- Ofertas -->
+  <section id="ofertas" class="ofertas">
+    <h2>Ofertas Especiales</h2>
+    <p>Hasta 50% de descuento en productos seleccionados.</p>
+    <br>
+    <a href="/ofertas" class="btn">Ver Ofertas</a>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="contacto">
+    <h2>Contáctanos</h2>
+    <form>
+      <input type="text" placeholder="Tu nombre" required>
+      <input type="email" placeholder="Tu correo" required>
+      <textarea placeholder="Tu mensaje"></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Van Gogh. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/inicio.js"></script>
+</body>
+</html>

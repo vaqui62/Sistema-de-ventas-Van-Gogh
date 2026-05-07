@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | Van Gogh</title>
+    <link rel="stylesheet" href="/static/css/inicio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+</head>
+<body class="pagina-auth">
+    <header>
+      <div class="logo"><h1>Van Gogh</h1></div>
+      <nav class="nav-container">
+        <ul class="nav-links">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/catalogo">Productos</a></li>
+          <li><a href="/ofertas">Ofertas</a></li>
+          <li><a href="/#contacto">Contacto</a></li>
+        </ul>
+        <div class="user-menu">
+          <div class="dropdown">
+            <button class="dropbtn"><span class="material-symbols-outlined">account_circle</span><i class="arrow down"></i></button>
+            <div class="dropdown-content">
+              <a href="/login">Iniciar Sesión</a>
+              <a href="/registro">Registrarse</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="contenedor-auth">
+        <form class="formulario-auth" id="registro-form">
+            <h2 class="titulo-auth">Crear Cuenta</h2>
+            <div class="campo">
+                <label>Nombres</label>
+                <input type="text" id="reg-nombres" placeholder="Tu nombre" required>
+            </div>
+            <div class="campo">
+                <label>Apellido Paterno</label>
+                <input type="text" id="reg-apellido1" placeholder="Apellido paterno" required>
+            </div>
+            <div class="campo">
+                <label>Apellido Materno</label>
+                <input type="text" id="reg-apellido2" placeholder="Apellido materno (opcional)">
+            </div>
+            <div class="campo">
+                <label>Correo Electrónico</label>
+                <input type="email" id="reg-email" placeholder="correo@ejemplo.com" required>
+            </div>
+            <div class="campo">
+                <label>Contraseña</label>
+                <input type="password" id="reg-password" placeholder="Mínimo 8 caracteres" required>
+            </div>
+            <div class="campo">
+                <label>Teléfono</label>
+                <input type="text" id="reg-telefono" placeholder="555-1234">
+            </div>
+            <button type="submit" class="btn-auth">Registrarse</button>
+            <p class="enlace-auth">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+        </form>
+    </div>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script>
+        document.getElementById('registro-form').addEventListener('submit', manejarRegistro);
+        configurarAuth();
+    </script>
+</body>
+</html>
