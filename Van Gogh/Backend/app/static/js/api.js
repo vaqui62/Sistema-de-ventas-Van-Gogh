@@ -49,3 +49,11 @@ async function fetchPatch(endpoint, body) {
     if (!res.ok) throw new Error(await res.text());
     return res.json();
 }
+
+async function fetchDelete(endpoint) {
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+        method: 'DELETE'
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+}

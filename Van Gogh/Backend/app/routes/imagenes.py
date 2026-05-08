@@ -1,8 +1,17 @@
-from flask import Blueprint, request, jsonify
+import os
+import uuid
+from pathlib import Path
+from flask import Blueprint, request, jsonify, current_app
+from werkzeug.utils import secure_filename
 from app.extensions import db
 from app.models.models import ProductoImagen, Producto
 
 imagenes_bp = Blueprint('imagenes', __name__, url_prefix='/api/imagenes')
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # ---------------------------------------------------------------
@@ -146,6 +155,68 @@ def actualizar_imagen(id_imagen):
 @imagenes_bp.route('/<int:id_imagen>', methods=['DELETE'])
 def eliminar_imagen(id_imagen):
     imagen = ProductoImagen.query.get_or_404(id_imagen)
+    # Borrar archivo físico si existe en uploads
+    if imagen.url and '/uploads/' in imagen.url:
+        try:
+            ruta = Path(imagen.url.replace('/static/', str(current_app.static_folder.parent / 'static') + '/'))
+            if ruta.exists():
+                ruta.unlink()
+        except Exception:
+            pass
     db.session.delete(imagen)
     db.session.commit()
     return jsonify({'mensaje': f'Imagen {id_imagen} eliminada'}), 200
+
+
+# ---------------------------------------------------------------
+# POST /api/imagenes/subir — subir archivo de imagen
+# ---------------------------------------------------------------
+@imagenes_bp.route('/subir', methods=['POST'])
+def subir_imagen():
+    if 'imagen' not in request.files:
+        return jsonify({'error': 'No se envió el archivo "imagen"'}), 400
+
+    file = request.files['imagen']
+    id_producto = request.form.get('id_producto', type=int)
+    es_principal = request.form.get('es_principal', 'false').lower() == 'true'
+
+    if not id_producto:
+        return jsonify({'error': 'id_producto es obligatorio'}), 400
+
+    producto = Producto.query.get(id_producto)
+    if not producto:
+        return jsonify({'error': 'El producto no existe'}), 404
+
+    if file.filename == '' or not allowed_file(file.filename):
+        return jsonify({'error': 'Archivo inválido. Extensiones permitidas: png, jpg, jpeg, gif, webp'}), 400
+
+    upload_dir = Path(current_app.root_path) / 'static' / 'uploads'
+    upload_dir.mkdir(parents=True, exist_ok=True)
+
+    ext = file.filename.rsplit('.', 1)[1].lower()
+    nombre_unico = f"{uuid.uuid4().hex}_{id_producto}.{ext}"
+    filepath = upload_dir / nombre_unico
+    file.save(str(filepath))
+
+    url = f"/static/uploads/{nombre_unico}"
+    alt_text = request.form.get('alt_text', producto.nombre)
+
+    if es_principal:
+        ProductoImagen.query.filter_by(id_producto=id_producto).update({'es_principal': False})
+        db.session.flush()
+
+    nueva = ProductoImagen(
+        id_producto=id_producto,
+        url=url,
+        alt_text=alt_text,
+        orden=request.form.get('orden', 0, type=int),
+        es_principal=es_principal,
+    )
+    db.session.add(nueva)
+    db.session.commit()
+
+    return jsonify({
+        'mensaje': 'Imagen subida correctamente',
+        'id_imagen': nueva.id_imagen,
+        'url': url,
+    }), 201

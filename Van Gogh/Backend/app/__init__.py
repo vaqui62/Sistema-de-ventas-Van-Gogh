@@ -21,6 +21,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Crear directorio de uploads si no existe
+    import os
+    os.makedirs(app.config.get('UPLOAD_FOLDER', app.root_path + '/static/uploads'), exist_ok=True)
+
     CORS(app)
     db.init_app(app)
     Migrate(app, db)

@@ -41,6 +41,7 @@
     <section class="detalle-producto">
       <div class="imagen-producto">
         <img id="img-principal" src="/static/img/placeholder.jpg" alt="Cargando producto...">
+        <div id="galeria-imagenes" class="galeria-thumbs"></div>
       </div>
       <div class="info-producto">
         <nav class="breadcrumb">
@@ -48,15 +49,14 @@
         </nav>
         <h2 id="nombre-producto">Nombre del Producto</h2>
         <p class="precio" id="precio-producto">Bs. 0.00</p>
+        <div id="obra-info" class="obra-info"></div>
         <div class="descripcion">
           <h3>Descripción</h3>
-          <p id="descripcion-txt">Cargando detalles del producto desde el servidor...</p>
+          <p id="descripcion-txt">Cargando detalles del producto...</p>
         </div>
         <div class="opciones">
-          <label for="talla">Talla:</label>
-          <select id="talla" name="talla">
-            <!-- Opciones generadas por JS -->
-          </select>
+          <label for="talla">Talla / Color:</label>
+          <select id="talla" name="talla"></select>
         </div>
         <div class="acciones">
           <input type="number" id="cantidad" value="1" min="1">

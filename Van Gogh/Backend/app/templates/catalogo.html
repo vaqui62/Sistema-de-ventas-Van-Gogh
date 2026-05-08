@@ -43,10 +43,18 @@
             <h2>Filtrar productos</h2>
             <div class="grupo-filtro">
                 <h3>Categorías</h3>
-                <!-- Se llenará dinámicamente con JS -->
+                <div class="grupo-categorias"></div>
             </div>
             <div class="grupo-filtro">
-                <h3>Precio</h3>
+                <h3>Talla</h3>
+                <div id="filtro-talla"></div>
+            </div>
+            <div class="grupo-filtro">
+                <h3>Color</h3>
+                <div id="filtro-color"></div>
+            </div>
+            <div class="grupo-filtro">
+                <h3>Precio Máximo</h3>
                 <input type="range" min="0" max="500" id="rango-precio" value="500">
                 <p>Hasta: <strong id="valor-precio">Bs. 500</strong></p>
             </div>

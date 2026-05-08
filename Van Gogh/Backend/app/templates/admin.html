@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración | Van Gogh</title>
     <link rel="stylesheet" href="/static/css/inicio.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,shopping_cart,dashboard" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,shopping_cart,dashboard,person_add,inventory_2,group,store,logout" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body class="pagina-admin">
@@ -28,7 +28,7 @@
                     <button class="dropbtn"><span class="material-symbols-outlined">account_circle</span></button>
                     <div class="dropdown-content" id="user-dropdown"></div>
                 </div>
-                <a href="/carrito" id="cart-icon-container" class="cart-link" style="position: relative; margin-left: 15px;">
+                <a href="/carrito" class="cart-link" style="position: relative; margin-left: 15px;">
                     <span class="material-symbols-outlined">shopping_cart</span>
                     <span id="cart-count">0</span>
                 </a>
@@ -37,52 +37,229 @@
     </header>
 
     <main class="contenedor-admin">
-        <h2>Panel de Administración</h2>
-        <p id="admin-bienvenida"></p>
+        <div class="admin-header-bar">
+            <h2>Panel de Administración</h2>
+            <p id="admin-bienvenida"></p>
+        </div>
+
+        <!-- Tabs de navegación -->
+        <nav class="admin-tabs" id="admin-tabs"></nav>
 
         <div class="admin-cards">
-            <!-- Sección Pedidos -->
-            <section class="admin-card">
-                <h3>Pedidos Recientes</h3>
-                <table class="tabla-admin" id="tabla-pedidos">
-                    <thead><tr><th>ID</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </section>
+            <!-- ============ TAB: DASHBOARD (todos) ============ -->
+            <div class="admin-tab-content" id="tab-dashboard">
+                <div class="admin-cards-inner">
+                    <section class="admin-card">
+                        <h3>Pedidos Recientes</h3>
+                        <table class="tabla-admin" id="tabla-pedidos">
+                            <thead><tr><th>ID</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </section>
 
-            <!-- Sección Historial de Precios -->
-            <section class="admin-card">
-                <h3>Historial de Cambios de Precio</h3>
-                <table class="tabla-admin">
-                    <thead><tr><th>Producto</th><th>Anterior</th><th>Nuevo</th><th>Motivo</th><th>Fecha</th></tr></thead>
-                    <tbody id="historial-precios"></tbody>
-                </table>
-            </section>
+                    <section class="admin-card">
+                        <h3>Inventario - Stock Bajo (≤5)</h3>
+                        <table class="tabla-admin">
+                            <thead><tr><th>Variante</th><th>SKU</th><th>Stock</th></tr></thead>
+                            <tbody id="stock-bajo"></tbody>
+                        </table>
+                    </section>
 
-            <!-- Sección Inventario (Stock bajo) -->
-            <section class="admin-card">
-                <h3>Inventario - Stock Bajo (≤5)</h3>
-                <table class="tabla-admin">
-                    <thead><tr><th>Variante</th><th>SKU</th><th>Stock</th></tr></thead>
-                    <tbody id="stock-bajo"></tbody>
-                </table>
-            </section>
+                    <section class="admin-card">
+                        <h3>Pagos Recientes</h3>
+                        <table class="tabla-admin">
+                            <thead><tr><th>ID Pago</th><th>Pedido</th><th>Método</th><th>Estado</th></tr></thead>
+                            <tbody id="pagos-recientes"></tbody>
+                        </table>
+                    </section>
 
-            <!-- Sección Pagos -->
-            <section class="admin-card">
-                <h3>Pagos Recientes</h3>
-                <table class="tabla-admin">
-                    <thead><tr><th>ID Pago</th><th>Pedido</th><th>Método</th><th>Estado</th></tr></thead>
-                    <tbody id="pagos-recientes"></tbody>
-                </table>
-            </section>
-            <section class="admin-card">
-    <h3>Clientes Registrados</h3>
-    <table class="tabla-admin">
-        <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th></tr></thead>
-        <tbody id="lista-clientes"></tbody>
-    </table>
-</section>
+                    <section class="admin-card">
+                        <h3>Historial de Precios</h3>
+                        <table class="tabla-admin">
+                            <thead><tr><th>Producto</th><th>Anterior</th><th>Nuevo</th><th>Motivo</th><th>Fecha</th></tr></thead>
+                            <tbody id="historial-precios"></tbody>
+                        </table>
+                    </section>
+
+                    <section class="admin-card">
+                        <h3>Clientes Registrados</h3>
+                        <table class="tabla-admin">
+                            <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th></tr></thead>
+                            <tbody id="lista-clientes"></tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ============ TAB: USUARIOS (solo gerente) ============ -->
+            <div class="admin-tab-content" id="tab-usuarios" style="display:none;">
+                <div class="admin-cards-inner">
+                    <section class="admin-card admin-card-full">
+                        <div class="admin-header">
+                            <h3>Gestión de Usuarios</h3>
+                            <div class="admin-header-actions">
+                                <button class="btn btn-small" onclick="mostrarFormUsuario('empleado')">+ Nuevo Empleado</button>
+                                <button class="btn btn-small" onclick="mostrarFormUsuario('comprador')">+ Nuevo Comprador</button>
+                            </div>
+                        </div>
+                        <table class="tabla-admin">
+                            <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+                            <tbody id="usuarios-tbody"></tbody>
+                        </table>
+                    </section>
+
+                    <!-- Formulario crear usuario -->
+                    <div id="form-usuario-admin" style="display:none;" class="admin-card admin-card-full">
+                        <h4 id="form-usuario-titulo">Nuevo Usuario</h4>
+                        <form id="usuario-form" class="form-admin">
+                            <input type="hidden" id="uf-rol-destino">
+                            <div class="form-grid">
+                                <div class="campo">
+                                    <label>Nombres</label>
+                                    <input type="text" id="uf-nombres" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Apellido Paterno</label>
+                                    <input type="text" id="uf-apellido1" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Apellido Materno</label>
+                                    <input type="text" id="uf-apellido2">
+                                </div>
+                                <div class="campo">
+                                    <label>Email</label>
+                                    <input type="email" id="uf-email" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Contraseña</label>
+                                    <input type="password" id="uf-password" required minlength="8">
+                                </div>
+                                <div class="campo">
+                                    <label>Teléfono (solo comprador)</label>
+                                    <input type="text" id="uf-telefono">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-small">Crear Usuario</button>
+                                <button type="button" class="btn btn-small btn-secundario" onclick="cancelarFormUsuario()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ TAB: PRODUCTOS (gerente y empleado) ============ -->
+            <div class="admin-tab-content" id="tab-productos" style="display:none;">
+                <div class="admin-cards-inner">
+                    <section class="admin-card admin-card-full">
+                        <div class="admin-header">
+                            <h3>Gestión de Productos</h3>
+                            <button class="btn btn-small" onclick="mostrarFormProducto()">+ Nuevo Producto</button>
+                        </div>
+                        <table class="tabla-admin">
+                            <thead><tr><th>ID</th><th>Imagen</th><th>Nombre</th><th>Precio</th><th>Categoría</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
+                            <tbody id="productos-tbody"></tbody>
+                        </table>
+                    </section>
+
+                    <!-- Formulario producto -->
+                    <div id="form-producto-admin" style="display:none;" class="admin-card admin-card-full">
+                        <h4 id="form-producto-titulo">Nuevo Producto</h4>
+                        <form id="producto-form" class="form-admin">
+                            <input type="hidden" id="pf-id">
+                            <div class="form-grid">
+                                <div class="campo">
+                                    <label>Nombre</label>
+                                    <input type="text" id="pf-nombre" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Slug (URL)</label>
+                                    <input type="text" id="pf-slug" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Precio Base (Bs.)</label>
+                                    <input type="number" step="0.01" id="pf-precio" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Categoría</label>
+                                    <select id="pf-categoria" required></select>
+                                </div>
+                                <div class="campo">
+                                    <label>Obra de Van Gogh</label>
+                                    <input type="text" id="pf-obra" placeholder="Ej: La Noche Estrellada">
+                                </div>
+                                <div class="campo">
+                                    <label>Año de la Obra</label>
+                                    <input type="number" id="pf-anio" placeholder="1889">
+                                </div>
+                            </div>
+                            <div class="campo">
+                                <label>Descripción</label>
+                                <textarea id="pf-descripcion" rows="3" placeholder="Descripción del producto..."></textarea>
+                            </div>
+                            <div class="campo">
+                                <label>Imagen del producto</label>
+                                <input type="file" id="pf-imagen" accept="image/png,image/jpeg,image/webp">
+                                <div id="pf-imagen-preview" style="margin-top: 10px;"></div>
+                            </div>
+                            <div class="campo">
+                                <label><input type="checkbox" id="pf-activo" checked> Producto activo en tienda</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-small" id="pf-submit">Guardar</button>
+                                <button type="button" class="btn btn-small btn-secundario" onclick="cancelarFormProducto()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Formulario variante -->
+                    <div id="form-variante-admin" style="display:none;" class="admin-card admin-card-full">
+                        <h4 id="form-variante-titulo">Nueva Variante</h4>
+                        <form id="variante-form" class="form-admin">
+                            <input type="hidden" id="vf-id">
+                            <input type="hidden" id="vf-id-producto">
+                            <div class="form-grid">
+                                <div class="campo">
+                                    <label>Talla</label>
+                                    <select id="vf-talla" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="XS">XS</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                        <option value="UNICA">Única</option>
+                                    </select>
+                                </div>
+                                <div class="campo">
+                                    <label>Color</label>
+                                    <input type="text" id="vf-color" required placeholder="Ej: Negro, Azul...">
+                                </div>
+                                <div class="campo">
+                                    <label>SKU</label>
+                                    <input type="text" id="vf-sku" required>
+                                </div>
+                                <div class="campo">
+                                    <label>Stock</label>
+                                    <input type="number" id="vf-stock" value="0" min="0">
+                                </div>
+                                <div class="campo">
+                                    <label>Precio Extra (Bs.)</label>
+                                    <input type="number" step="0.01" id="vf-precio-extra" value="0" min="0">
+                                </div>
+                                <div class="campo">
+                                    <label><input type="checkbox" id="vf-activa" checked> Variante activa</label>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-small">Guardar Variante</button>
+                                <button type="button" class="btn btn-small btn-secundario" onclick="cancelarFormVariante()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 

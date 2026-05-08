@@ -176,6 +176,7 @@ def historial_global():
 # =====================================
  
 def _serializar(p, detalle=False):
+    imagenes_lista = sorted(p.imagenes, key=lambda x: x.orden)
     data = {
         'id_producto':  p.id_producto,
         'id_categoria': p.id_categoria,
@@ -188,6 +189,13 @@ def _serializar(p, detalle=False):
         'anio_obra':    p.anio_obra,
         'activo':       p.activo,
         'created_at':   p.created_at.isoformat() if p.created_at else None,
+        'imagenes': [{
+            'id_imagen':    i.id_imagen,
+            'url':          i.url,
+            'alt_text':     i.alt_text,
+            'orden':        i.orden,
+            'es_principal': i.es_principal,
+        } for i in imagenes_lista],
     }
  
     if detalle:
@@ -200,13 +208,5 @@ def _serializar(p, detalle=False):
             'precio_extra': float(v.precio_extra),
             'activa':       v.activa,
         } for v in p.variantes]
- 
-        data['imagenes'] = [{
-            'id_imagen':    i.id_imagen,
-            'url':          i.url,
-            'alt_text':     i.alt_text,
-            'orden':        i.orden,
-            'es_principal': i.es_principal,
-        } for i in sorted(p.imagenes, key=lambda x: x.orden)]
  
     return data

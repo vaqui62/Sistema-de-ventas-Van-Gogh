@@ -16,3 +16,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-cambiar-en-produccion")
+
+    UPLOAD_FOLDER = Path(__file__).resolve().parent.parent / 'app' / 'static' / 'uploads'
+    MAX_CONTENT_LENGTH = 10 * 1024 * 1024

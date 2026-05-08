@@ -19,21 +19,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderizarProducto(p) {
     document.getElementById('nombre-producto').textContent = p.nombre;
     document.getElementById('precio-producto').textContent = `Bs. ${p.precio_base}`;
-    document.getElementById('descripcion-txt').textContent = p.descripcion || '';
+    document.getElementById('descripcion-txt').textContent = p.descripcion || 'Sin descripción disponible.';
     document.getElementById('categoria-txt').textContent = p.categoria;
     document.getElementById('stock-num').textContent = '...';
 
-    const img = document.getElementById('img-principal');
-    if (p.imagenes && p.imagenes.length > 0) {
-        img.src = p.imagenes[0].url;
-    } else {
-        img.src = '/static/img/placeholder.jpg';
+    // Info de la obra
+    const obraInfo = document.getElementById('obra-info');
+    if (p.obra_vangogh) {
+        obraInfo.innerHTML = `
+            <p><strong>Inspirado en:</strong> "${p.obra_vangogh}"${p.anio_obra ? ` (${p.anio_obra})` : ''}</p>
+        `;
     }
 
+    // Galería de imágenes
+    const imgPrincipal = document.getElementById('img-principal');
+    const galeria = document.getElementById('galeria-imagenes');
+
+    if (p.imagenes && p.imagenes.length > 0) {
+        imgPrincipal.src = p.imagenes[0].url;
+        imgPrincipal.onerror = () => { imgPrincipal.src = '/static/img/placeholder.jpg'; };
+
+        if (p.imagenes.length > 1) {
+            galeria.innerHTML = p.imagenes.map((img, i) => `
+                <img src="${img.url}" alt="${img.alt_text || p.nombre}"
+                     class="${i === 0 ? 'activa' : ''}"
+                     onclick="cambiarImagen(this, '${img.url}')"
+                     onerror="this.src='/static/img/placeholder.jpg'">
+            `).join('');
+            galeria.style.display = 'flex';
+        }
+    } else {
+        imgPrincipal.src = '/static/img/placeholder.jpg';
+    }
+
+    // Variantes
     const selectTalla = document.getElementById('talla');
     selectTalla.innerHTML = '';
-    if (p.variantes.length === 0) {
-        selectTalla.innerHTML = '<option value="">Sin variantes</option>';
+    if (!p.variantes || p.variantes.length === 0) {
+        selectTalla.innerHTML = '<option value="">Sin variantes disponibles</option>';
         document.getElementById('stock-num').textContent = '0';
         return;
     }
@@ -85,4 +108,10 @@ function renderizarProducto(p) {
         alert('Agregado al carrito');
         window.location.href = '/catalogo';
     });
+}
+
+function cambiarImagen(el, url) {
+    document.getElementById('img-principal').src = url;
+    document.querySelectorAll('#galeria-imagenes img').forEach(i => i.classList.remove('activa'));
+    el.classList.add('activa');
 }
