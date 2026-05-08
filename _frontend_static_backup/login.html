@@ -15,7 +15,6 @@
   </div>
   
   <nav class="nav-container">
-    <!-- Enlaces principales -->
     <ul class="nav-links">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="catalogo.html">Productos</a></li>
@@ -23,7 +22,6 @@
       <li><a href="inicio.html#contacto">Contacto</a></li>
     </ul>
 
-    <!-- Opción de Usuario en la esquina -->
     <div class="user-menu">
     <div class="dropdown">
         
@@ -39,17 +37,17 @@ account_circle
   </nav>
 </header>
     <div class="contenedor-auth">
-        <form class="formulario-auth">
+        <form class="formulario-auth" id="login-form">
             <h2 class="titulo-auth">Iniciar Sesión</h2>
             
             <div class="campo">
                 <label>Correo Electrónico</label>
-                <input type="email" placeholder="ejemplo@correo.com" required>
+                <input type="email" id="login-email" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="campo">
                 <label>Contraseña</label>
-                <input type="password" placeholder="********" required>
+                <input type="password" id="login-password" placeholder="********" required>
             </div>
 
             <button type="submit" class="btn-auth">Entrar</button>
@@ -58,6 +56,8 @@ account_circle
         </form>
     </div>
 
+    <script src="Js/api.js"></script>
+    <script src="Js/login.js"></script>
 </body>
 
 </html>

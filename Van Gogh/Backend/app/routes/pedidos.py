@@ -17,8 +17,11 @@ def _serializar_pedido(p):
     return {
         'id_pedido':          p.id_pedido,
         'id_cliente':         p.id_cliente,
+        'cliente_nombre':     f"{p.cliente.usuario.nombres} {p.cliente.usuario.apellido_1}" if p.cliente and p.cliente.usuario else "Desconocido",
+        'cliente_email':      p.cliente.usuario.email if p.cliente and p.cliente.usuario else None,
         'id_cupon':           p.id_cupon,
         'id_direccion':       p.id_direccion,
+        'direccion':          f"{p.direccion.calle} {p.direccion.numero_ext}, {p.direccion.ciudad}" if p.direccion else None,
         'estado':             p.estado.value,
         'subtotal':           float(p.subtotal),
         'descuento_aplicado': float(p.descuento_aplicado),
@@ -33,6 +36,9 @@ def _serializar_detalle(d):
     return {
         'id_detalle':      d.id_detalle,
         'id_variante':     d.id_variante,
+        'producto_nombre': d.variante.producto.nombre if d.variante and d.variante.producto else None,
+        'talla':           d.variante.talla.value if d.variante else None,
+        'color':           d.variante.color if d.variante else None,
         'cantidad':        d.cantidad,
         'precio_unitario': float(d.precio_unitario),
         'subtotal':        float(d.subtotal) if d.subtotal else None

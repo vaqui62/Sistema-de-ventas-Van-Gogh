@@ -11,14 +11,12 @@
 </head>
 <body class="pagina-detalle">
 
-  <!-- Encabezado (Mantener igual que inicio para consistencia) -->
-   <header>
+  <header>
   <div class="logo">
     <h1>Van Gogh</h1>
   </div>
   
   <nav class="nav-container">
-    <!-- Enlaces principales -->
     <ul class="nav-links">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="catalogo.html">Productos</a></li>
@@ -26,7 +24,6 @@
       <li><a href="inicio.html#contacto">Contacto</a></li>
     </ul>
 
-    <!-- Opción de Usuario en la esquina -->
     <div class="user-menu">
     <div class="dropdown">
         
@@ -45,13 +42,10 @@ account_circle
   <main class="contenedor-detalle">
     <section class="detalle-producto">
       
-      <!-- Contenedor de Imagen -->
       <div class="imagen-producto">
-        <!-- El id="img-principal" permitirá que JS cambie la imagen según el producto -->
         <img id="img-principal" src="img/placeholder.jpg" alt="Cargando producto...">
       </div>
 
-      <!-- Contenedor de Información -->
       <div class="info-producto">
         <nav class="breadcrumb">
           <a href="inicio.html">Inicio</a> / <a href="catalogo.html">Catálogo</a> / <span id="categoria-txt">Categoría</span>
@@ -65,31 +59,90 @@ account_circle
           <p id="descripcion-txt">Cargando detalles del producto desde el servidor...</p>
         </div>
 
-        <!-- Opciones de Compra -->
         <div class="opciones">
           <label for="talla">Talla:</label>
           <select id="talla" name="talla">
-            <option value="s">S</option>
-            <option value="m">M</option>
-            <option value="l">L</option>
-            <option value="xl">XL</option>
+            <option value="">Seleccionar...</option>
           </select>
         </div>
 
+        <p class="stock-info">Stock disponible: <span id="stock-num">0</span> unidades</p>
+
         <div class="acciones">
           <input type="number" id="cantidad" value="1" min="1">
-          <button class="btn-comprar" id="btn-agregar">Agregar al Carrito</button>
+          <button class="btn-comprar" id="btn-comprar">Comprar Ahora</button>
         </div>
-
-        <p class="stock-info">Stock disponible: <span id="stock-num">0</span> unidades</p>
       </div>
 
     </section>
   </main>
 
+  <!-- Modal Checkout -->
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <span class="close-modal" id="btn-cerrar-modal">&times;</span>
+      <h3>Finalizar Compra</h3>
 
+      <div class="modal-resumen">
+        <p><strong>Producto:</strong> <span id="modal-variante-info"></span></p>
+        <p><strong>Total:</strong> <span id="modal-total"></span></p>
+      </div>
 
-  <!-- Script para capturar el ID y llenar los datos -->
-  <script src="js/detalle.js"></script>
+      <form id="checkout-form">
+        <h4 style="color:#d4af37;margin-bottom:12px;">Dirección de Envío</h4>
+
+        <div class="campo">
+          <label>Calle/Av. y número</label>
+          <input type="text" id="checkout-calle" placeholder="Ej: Av. Siempre Viva #123" required>
+        </div>
+
+        <div class="campo">
+          <label>Ciudad</label>
+          <input type="text" id="checkout-ciudad" placeholder="Ej: La Paz" required>
+        </div>
+
+        <div class="campo">
+          <label>Código Postal</label>
+          <input type="text" id="checkout-cp" placeholder="Ej: 0000" required>
+        </div>
+
+        <h4 style="color:#d4af37;margin-bottom:12px;margin-top:18px;">Método de Pago</h4>
+
+        <div class="campo">
+          <label>Selecciona un método</label>
+          <select id="metodo-pago" required>
+            <option value="tarjeta_credito">Tarjeta de Crédito</option>
+            <option value="tarjeta_debito">Tarjeta de Débito</option>
+            <option value="transferencia">Transferencia Bancaria</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-comprar-final">Confirmar Compra</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Resumen de Compra Exitosa -->
+  <div class="compra-exitosa" id="compra-exitosa">
+    <div class="icono-check">&#10003;</div>
+    <h2>¡Compra Exitosa!</h2>
+    <p>Tu pedido ha sido registrado correctamente.</p>
+    <div class="resumen-card">
+      <p><strong>Pedido:</strong> #<span id="resumen-pedido-id"></span></p>
+      <p><strong>Producto:</strong> <span id="resumen-producto"></span></p>
+      <p><strong>Total pagado:</strong> <span id="resumen-total"></span></p>
+      <p><strong>Estado:</strong> <span id="resumen-estado"></span></p>
+    </div>
+    <button class="btn-seguir" id="btn-seguir-comprando">Seguir Comprando</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Van Gogh. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="Js/api.js"></script>
+  <script src="Js/detalle.js"></script>
 </body>
 </html>

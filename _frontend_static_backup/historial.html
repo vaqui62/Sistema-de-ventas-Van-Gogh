@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Pedidos | Van Gogh</title>
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+</head>
+<body class="pagina-historial">
+
+<header>
+  <div class="logo">
+    <h1>Van Gogh</h1>
+  </div>
+  <nav class="nav-container">
+    <ul class="nav-links">
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="catalogo.html">Productos</a></li>
+      <li><a href="ofertas.html">Ofertas</a></li>
+      <li><a href="inicio.html#contacto">Contacto</a></li>
+    </ul>
+    <div class="user-menu">
+      <div class="dropdown">
+        <button class="dropbtn">
+          <span class="material-symbols-outlined">account_circle</span>
+        </button>
+        <div class="dropdown-content">
+          <a href="login.html">Iniciar Sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="contenedor-historial" id="historial-content">
+    <h2>Historial de Pedidos</h2>
+    <div class="tabla-wrapper">
+        <table class="tabla-historial">
+            <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Email</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body">
+                <tr><td colspan="7">Cargando pedidos...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div class="modal" id="detalle-modal">
+    <div class="modal-content">
+        <span class="close-modal" id="cerrar-detalle">&times;</span>
+        <h3>Detalle del Pedido</h3>
+        <div id="detalle-body"></div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Van Gogh. Todos los derechos reservados.</p>
+</footer>
+
+<script src="Js/api.js"></script>
+<script src="Js/historial.js"></script>
+</body>
+</html>

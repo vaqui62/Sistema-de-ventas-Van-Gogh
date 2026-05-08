@@ -13,7 +13,6 @@
   </div>
   
   <nav class="nav-container">
-    <!-- Enlaces principales -->
     <ul class="nav-links">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="catalogo.html">Productos</a></li>
@@ -21,7 +20,6 @@
       <li><a href="inicio.html#contacto">Contacto</a></li>
     </ul>
 
-    <!-- Opción de Usuario en la esquina -->
     <div class="user-menu">
     <div class="dropdown">
         
@@ -37,22 +35,32 @@ account_circle
   </nav>
 </header>
     <div class="contenedor-auth">
-        <form class="formulario-auth">
+        <form class="formulario-auth" id="registro-form">
             <h2 class="titulo-auth">Crear Cuenta</h2>
-            
+
             <div class="campo">
-                <label>Nombre Completo</label>
-                <input type="text" placeholder="Tu nombre" required>
+                <label>Nombre</label>
+                <input type="text" id="reg-nombres" placeholder="Tu nombre" required>
+            </div>
+
+            <div class="campo">
+                <label>Apellido</label>
+                <input type="text" id="reg-apellido1" placeholder="Tu apellido" required>
             </div>
 
             <div class="campo">
                 <label>Correo Electrónico</label>
-                <input type="email" placeholder="correo@ejemplo.com" required>
+                <input type="email" id="reg-email" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <div class="campo">
+                <label>Teléfono (opcional)</label>
+                <input type="text" id="reg-telefono" placeholder="+591 12345678">
             </div>
 
             <div class="campo">
                 <label>Contraseña</label>
-                <input type="password" placeholder="Mínimo 8 caracteres" required>
+                <input type="password" id="reg-password" placeholder="Mínimo 8 caracteres" required>
             </div>
 
             <button type="submit" class="btn-auth">Registrarse</button>
@@ -61,5 +69,7 @@ account_circle
         </form>
     </div>
 
+    <script src="Js/api.js"></script>
+    <script src="Js/registro.js"></script>
 </body>
 </html>
