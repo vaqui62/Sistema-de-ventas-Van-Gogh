@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         renderizarCategorias(categorias);
         renderizarFiltrosTalla();
-        renderizarFiltrosColor();
         renderizarProductos(productos);
         configurarAuth();
     } catch (err) {
@@ -53,18 +52,6 @@ function renderizarFiltrosTalla() {
     });
 }
 
-function renderizarFiltrosColor() {
-    const grupo = document.getElementById('filtro-color');
-    if (!grupo || !todasLasVariantes.length) return;
-    const colores = [...new Set(todasLasVariantes.map(v => v.color))];
-    grupo.innerHTML = colores.map(c => `
-        <label><input type="checkbox" class="filtro-color" value="${c}" checked> ${c}</label>
-    `).join('');
-    grupo.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        chk.addEventListener('change', aplicarFiltros);
-    });
-}
-
 function obtenerVariantesProducto(idProducto) {
     return todasLasVariantes.filter(v => v.id_producto === idProducto && v.activa);
 }
@@ -73,7 +60,6 @@ function aplicarFiltros() {
     const texto = document.getElementById('busqueda').value.toLowerCase();
     const catsSeleccionadas = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(c => parseInt(c.value));
     const tallasSel = Array.from(document.querySelectorAll('.filtro-talla:checked')).map(c => c.value);
-    const coloresSel = Array.from(document.querySelectorAll('.filtro-color:checked')).map(c => c.value);
     const precioMax = parseInt(document.getElementById('rango-precio').value);
     const orden = document.getElementById('ordenar').value;
 
@@ -85,13 +71,11 @@ function aplicarFiltros() {
         if (catsSeleccionadas.length && !catsSeleccionadas.includes(p.id_categoria)) return false;
         if (p.precio_base > precioMax) return false;
 
-        // Filtro por talla/color: ver si el producto tiene variantes que coincidan
-        if (tallasSel.length || coloresSel.length) {
+        // Filtro por talla
+        if (tallasSel.length) {
             const variantes = obtenerVariantesProducto(p.id_producto);
             if (!variantes.length) return false;
-            const tieneTalla = tallasSel.length === 0 || variantes.some(v => tallasSel.includes(v.talla));
-            const tieneColor = coloresSel.length === 0 || variantes.some(v => coloresSel.includes(v.color));
-            if (!tieneTalla || !tieneColor) return false;
+            if (!variantes.some(v => tallasSel.includes(v.talla))) return false;
         }
 
         return true;

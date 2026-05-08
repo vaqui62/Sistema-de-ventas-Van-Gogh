@@ -94,9 +94,13 @@ async function cargarDirecciones(sesion) {
         const cliente = await fetchGet(`/clientes/usuario/${sesion.id_usuario}`);
         const direcciones = await fetchGet(`/direcciones?cliente=${cliente.id_cliente}`);
         const select = document.getElementById('direccion-select');
-        select.innerHTML = direcciones.map(d => 
-            `<option value="${d.id_direccion}">${d.calle} ${d.numero_ext}, ${d.ciudad} (${d.tipo})</option>`
-        ).join('');
+        if (direcciones.length === 0) {
+            select.innerHTML = '<option value="">-- No hay direcciones --</option>';
+        } else {
+            select.innerHTML = direcciones.map(d => 
+                `<option value="${d.id_direccion}">${d.calle} ${d.numero_ext}, ${d.ciudad} (${d.tipo})</option>`
+            ).join('');
+        }
     } catch (err) {
         console.error('Error cargando direcciones:', err);
     }
@@ -110,6 +114,7 @@ async function realizarPedido() {
     }
     const id_direccion = document.getElementById('direccion-select').value;
     const cuponInput = document.getElementById('cupon-input').value.trim();
+    const metodoPago = document.getElementById('metodo-pago').value;
     const id_cupon = cuponInput ? await obtenerIdCupon(cuponInput) : null;
 
     if (!id_direccion) {
@@ -122,21 +127,54 @@ async function realizarPedido() {
         cantidad: item.cantidad
     }));
 
+    const id_cliente = await obtenerIdCliente(sesion);
+    const subtotal = calcularSubtotal();
+    const costo_envio = 3.99;
+
     const body = {
-        id_cliente: await obtenerIdCliente(sesion),
+        id_cliente: id_cliente,
         id_direccion: parseInt(id_direccion),
-        costo_envio: 3.99,
+        costo_envio: costo_envio,
         id_cupon: id_cupon,
         items
     };
 
+    const btnPagar = document.getElementById('btn-pagar');
+    btnPagar.disabled = true;
+    btnPagar.textContent = 'Procesando...';
+
     try {
         const pedido = await fetchPost('/pedidos/', body);
-        alert(`Pedido #${pedido.id_pedido} creado. Total: Bs. ${pedido.total}`);
+
+        // Registrar el pago
+        await fetchPost('/pagos/', {
+            id_pedido: pedido.id_pedido,
+            metodo: metodoPago,
+            monto: pedido.total
+        });
+
         localStorage.removeItem('carrito');
-        window.location.href = '/catalogo';
+
+        // Mostrar modal de confirmación
+        document.getElementById('confirm-pedido-id').textContent = pedido.id_pedido;
+        document.getElementById('confirm-total').textContent = pedido.total;
+        const metodos = {
+            'tarjeta_credito': 'Tarjeta de Crédito',
+            'tarjeta_debito': 'Tarjeta de Débito',
+            'transferencia': 'Transferencia',
+            'efectivo': 'Efectivo',
+            'paypal': 'PayPal'
+        };
+        document.getElementById('confirm-metodo').textContent = metodos[metodoPago] || metodoPago;
+        document.getElementById('modal-confirmacion').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+
+        carrito = [];
+        renderizarCarrito();
     } catch (error) {
-        alert('Error al crear el pedido: ' + error.message);
+        alert('Error al procesar la compra: ' + error.message);
+        btnPagar.disabled = false;
+        btnPagar.textContent = 'Realizar Pedido';
     }
 }
 
@@ -158,4 +196,14 @@ async function obtenerIdCupon(codigo) {
 document.addEventListener('DOMContentLoaded', () => {
     cargarCarrito();
     document.getElementById('btn-pagar')?.addEventListener('click', realizarPedido);
+
+    // Cerrar modal
+    document.getElementById('modal-close')?.addEventListener('click', () => {
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+    document.getElementById('modal-overlay')?.addEventListener('click', () => {
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
 });

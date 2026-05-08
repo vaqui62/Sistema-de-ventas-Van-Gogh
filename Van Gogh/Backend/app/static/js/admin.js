@@ -465,7 +465,6 @@ async function mostrarFormVariante(idProducto, datos) {
         titulo.textContent = 'Editar Variante';
         document.getElementById('vf-id').value = datos.id_variante;
         document.getElementById('vf-talla').value = datos.talla;
-        document.getElementById('vf-color').value = datos.color;
         document.getElementById('vf-sku').value = datos.sku;
         document.getElementById('vf-stock').value = datos.stock;
         document.getElementById('vf-precio-extra').value = datos.precio_extra;
@@ -491,7 +490,7 @@ async function guardarVariante(e) {
     const datos = {
         id_producto: parseInt(document.getElementById('vf-id-producto').value),
         talla: document.getElementById('vf-talla').value,
-        color: document.getElementById('vf-color').value,
+        color: 'Unico',
         sku: document.getElementById('vf-sku').value,
         stock: parseInt(document.getElementById('vf-stock').value),
         precio_extra: parseFloat(document.getElementById('vf-precio-extra').value),

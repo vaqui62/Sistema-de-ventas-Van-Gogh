@@ -64,7 +64,7 @@ function renderizarProducto(p) {
     p.variantes.forEach(v => {
         const option = document.createElement('option');
         option.value = v.id_variante;
-        option.textContent = `${v.talla} - ${v.color} (stock: ${v.stock})`;
+        option.textContent = `Talla ${v.talla} (stock: ${v.stock})`;
         selectTalla.appendChild(option);
     });
 
@@ -82,13 +82,13 @@ function renderizarProducto(p) {
         selectTalla.dispatchEvent(new Event('change'));
     }
 
-    document.getElementById('btn-agregar').addEventListener('click', () => {
+    function agregarAlCarrito() {
         const varianteId = parseInt(selectTalla.value);
         const cantidad = parseInt(document.getElementById('cantidad').value);
         const variante = p.variantes.find(v => v.id_variante === varianteId);
         if (!variante || cantidad > variante.stock) {
             alert('Stock insuficiente');
-            return;
+            return null;
         }
         const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
         const itemExistente = carrito.find(i => i.id_variante === varianteId);
@@ -105,8 +105,19 @@ function renderizarProducto(p) {
             });
         }
         localStorage.setItem('carrito', JSON.stringify(carrito));
-        alert('Agregado al carrito');
-        window.location.href = '/catalogo';
+        return variante;
+    }
+
+    document.getElementById('btn-agregar').addEventListener('click', () => {
+        if (agregarAlCarrito()) {
+            alert('Agregado al carrito');
+        }
+    });
+
+    document.getElementById('btn-comprar-ahora').addEventListener('click', () => {
+        if (agregarAlCarrito()) {
+            window.location.href = '/carrito';
+        }
     });
 }
 

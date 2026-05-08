@@ -8,6 +8,7 @@ function configurarAuth() {
     if (sesion) {
         userMenu.innerHTML = `
             <a href="#" style="pointer-events:none; color: #d4af37;">Hola, ${sesion.nombres}</a>
+            ${sesion.rol === 'comprador' ? '<a href="/perfil">Mi Perfil</a>' : ''}
             <a href="#" id="btn-logout">Cerrar sesión</a>
         `;
         document.getElementById('btn-logout').addEventListener('click', cerrarSesion);

@@ -19,13 +19,12 @@ class RolUsuario(enum.Enum):
     comprador = 'comprador'
 
 class TallaRopa(enum.Enum):
-    XS    = 'XS'
-    S     = 'S'
-    M     = 'M'
-    L     = 'L'
-    XL    = 'XL'
-    XXL   = 'XXL'
-    UNICA = 'UNICA'
+    XS = 'XS'
+    S  = 'S'
+    M  = 'M'
+    L  = 'L'
+    X  = 'X'
+    XL = 'XL'
 
 class TipoDireccion(enum.Enum):
     Casa    = 'Casa'

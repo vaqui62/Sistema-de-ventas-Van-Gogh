@@ -35,3 +35,7 @@ def admin():
 @paginas_bp.route('/contacto')
 def contacto():
     return render_template('contacto.html')
+
+@paginas_bp.route('/perfil')
+def perfil():
+    return render_template('perfil.html')
