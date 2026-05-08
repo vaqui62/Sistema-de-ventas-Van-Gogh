@@ -31,3 +31,7 @@ def carrito():
 @paginas_bp.route('/admin')
 def admin():
     return render_template('admin.html')
+
+@paginas_bp.route('/contacto')
+def contacto():
+    return render_template('contacto.html')

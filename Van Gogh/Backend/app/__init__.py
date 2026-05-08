@@ -1,7 +1,9 @@
 from flask import Flask
-from flask_migrate import Migrate          
+from flask_migrate import Migrate
+from flask_cors import CORS
 from app.config import Config
 from app.extensions import db
+from app.models.models import *  # noqa: F401, F403 — necesario para que Migrate detecte los modelos
 from app.routes.categorias import categorias_bp
 from app.routes.productos import productos_bp
 from app.routes.usuarios import usuarios_bp
@@ -15,18 +17,13 @@ from app.routes.cupones import cupones_bp
 from app.routes.clientes import clientes_bp
 
 
-
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    CORS(app)
     db.init_app(app)
-
-    # Importar modelos ANTES de Migrate para que los detecte
-
-
-
+    Migrate(app, db)
 
     app.register_blueprint(categorias_bp)
     app.register_blueprint(productos_bp)
@@ -39,6 +36,7 @@ def create_app():
     app.register_blueprint(cupones_bp)
     app.register_blueprint(paginas_bp)
     app.register_blueprint(clientes_bp)
+
     @app.route("/")
     def home():
         return {"mensaje": "Backend Flask funcionando"}
