@@ -633,6 +633,12 @@ body.pagina-catalogo {
     background: #5590ff;
 }
 
+/* Dark page background for generic pages */
+body.pagina-generica {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111128 100%);
+    min-height: 100vh;
+}
+
 nav ul li a.activo,
 nav ul li a:hover {
     color: #76b0ff;
