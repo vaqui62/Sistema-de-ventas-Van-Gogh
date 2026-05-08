@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()
+load_dotenv(encoding='utf-8', override=False)  # ← estos dos parámetros
 
 class Config:
 
